@@ -13,9 +13,6 @@ export class Produto {
   nome: string
 
   @Column()
-  cnpj: string
-
-  @Column()
   preco: number
 
   @OneToMany(() => ProdutoIngrediente, produtoIngrediente => produtoIngrediente.produto, {
