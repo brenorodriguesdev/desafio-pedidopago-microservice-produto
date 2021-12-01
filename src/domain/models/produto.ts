@@ -4,7 +4,7 @@ export interface ProdutoModel {
     id?: number
     thumbnail: string
     nome: string
-    preco: string
+    preco: number
     ingredientes: IngredienteModel[]
     disponibilidade: number
     volume: number
