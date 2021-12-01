@@ -1,5 +1,5 @@
-import { GRPCRequest, GRPCResponse } from "./grpc";
+import { GRPCRequest } from "./grpc";
 
 export interface Controller {
-    handle(grpcRequest: GRPCRequest): Promise<GRPCResponse>
+    handle(grpcRequest: GRPCRequest): Promise<any>
 }
