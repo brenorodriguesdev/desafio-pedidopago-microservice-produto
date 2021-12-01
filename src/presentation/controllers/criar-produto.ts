@@ -32,6 +32,10 @@ export class CriarProdutoController implements Controller {
             outros
         })
         
+        if (produto instanceof Error) {
+            throw produto
+        }
+
         return produto
     }
 }
