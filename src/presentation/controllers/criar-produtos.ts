@@ -25,8 +25,8 @@ export class CriarProdutosController implements Controller {
             produtos
         } = grpcRequest.request
 
-        const produto = await this.criarProdutosUseCase.criar(produtos)
+        const produtoLista = await this.criarProdutosUseCase.criar(produtos)
         
-        return produto
+        return produtoLista
     }
 }
