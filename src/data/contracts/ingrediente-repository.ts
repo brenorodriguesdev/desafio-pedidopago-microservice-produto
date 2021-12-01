@@ -1,5 +1,5 @@
 import { Ingrediente } from "../entities/ingrediente";
 
 export interface IngredienteRepository {
-    findAll: () => Promise<Ingrediente[]>
+    findById: (id: number) => Promise<Ingrediente>
 }
