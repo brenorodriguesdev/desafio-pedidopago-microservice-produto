@@ -1,15 +1,14 @@
-import { CriarProdutoModel, CriarProdutosModel } from "../../domain/models/criar-produtos";
-import { ProdutoModel } from "../../domain/models/produto";
-import { CriarProdutoUseCase } from "../../domain/useCases/criar-produtos";
+import { AtualizarProdutoModel } from "../../domain/models/atualizar-produto";
+import { AtualizarProdutoUseCase } from "../../domain/useCases/atualizar-produto";
 import { IngredienteRepository } from "../contracts/ingrediente-repository";
 import { ProdutoIngredienteRepository } from "../contracts/produto-ingrediente-repository";
 import { ProdutoRepository } from "../contracts/produto-repository";
 
-export class CriarProdutoService implements CriarProdutoUseCase {
+export class AtualizarProdutoService implements AtualizarProdutoUseCase {
     constructor(private readonly ingredienteRepository: IngredienteRepository,
         private readonly produtoRepository: ProdutoRepository,
         private readonly produtoIngredienteRepository: ProdutoIngredienteRepository) { }
-    async criar(data: CriarProdutoModel): Promise<ProdutoModel | Error> {
+    async atualizar(data: AtualizarProdutoModel): Promise<void | Error> {
 
         let ingredientes = []
 
@@ -21,7 +20,10 @@ export class CriarProdutoService implements CriarProdutoUseCase {
             ingredientes.push(ingrediente)
         }
 
-        const produto = await this.produtoRepository.create({
+        const produto = await this.produtoRepository.findById(data.id)
+
+        await this.produtoRepository.update({
+            id: data.id,
             thumbnail: data.thumbnail,
             nome: data.nome,
             preco: data.preco,
@@ -31,23 +33,15 @@ export class CriarProdutoService implements CriarProdutoUseCase {
             outros: data.outros
         })
 
+        for (let produtoIngrediente of produto.ingredientes) {
+            await this.produtoIngredienteRepository.deleteById(produtoIngrediente.id)
+        }
+
         for (let ingrediente of ingredientes) {
             this.produtoIngredienteRepository.create({
                 ingrediente,
                 produto
             })
-        }
-
-
-        return {
-            id: produto.id,
-            thumbnail: produto.thumbnail,
-            nome: produto.nome,
-            preco: produto.preco,
-            ingredientes: ingredientes,
-            disponibilidade: produto.disponibilidade,
-            volume: produto.volume,
-            outros: produto.outros
         }
     }
 }
