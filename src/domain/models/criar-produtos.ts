@@ -1,5 +1,4 @@
 export interface CriarProdutoModel {
-    id?: number
     thumbnail: string
     nome: string
     preco: number
