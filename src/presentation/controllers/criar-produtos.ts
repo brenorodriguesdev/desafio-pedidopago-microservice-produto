@@ -27,6 +27,10 @@ export class CriarProdutosController implements Controller {
 
         const produtoLista = await this.criarProdutosUseCase.criar(produtos)
         
+        if (produtoLista instanceof Error) {
+            throw produtoLista
+        }
+
         return produtoLista
     }
 }

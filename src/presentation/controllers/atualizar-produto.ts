@@ -23,7 +23,7 @@ export class AtualizarProdutoController implements Controller {
             outros
         } = grpcRequest.request
 
-        await this.atualizarProdutoUseCase.atualizar({
+        const result = await this.atualizarProdutoUseCase.atualizar({
             id,
             thumbnail,
             nome,
@@ -33,6 +33,10 @@ export class AtualizarProdutoController implements Controller {
             volume,
             outros
         })
+
+        if (result instanceof Error) {
+            throw result
+        }
         
     }
 }

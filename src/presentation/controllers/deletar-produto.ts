@@ -16,7 +16,10 @@ export class DeletarProdutoController implements Controller {
             id
         } = grpcRequest.request
 
-        await this.deletarProdutoUseCase.deletar(id)
+        const result = await this.deletarProdutoUseCase.deletar(id)
 
+        if (result instanceof Error) {
+            throw result
+        }
     }
 }

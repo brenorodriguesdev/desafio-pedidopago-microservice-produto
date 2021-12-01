@@ -18,6 +18,10 @@ export class BuscarProdutoController implements Controller {
 
         const produto = await this.buscarProdutoUseCase.buscar(id)
         
+        if (produto instanceof Error) {
+            throw produto
+        }
+
         return produto
     }
 }

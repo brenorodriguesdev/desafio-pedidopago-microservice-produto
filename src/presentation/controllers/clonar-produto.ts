@@ -16,7 +16,10 @@ export class ClonarProdutoController implements Controller {
             id
         } = grpcRequest.request
 
-        await this.clonarProdutoUseCase.clonar(id)
+        const result = await this.clonarProdutoUseCase.clonar(id)
 
+        if (result instanceof Error) {
+            throw result
+        }
     }
 }
