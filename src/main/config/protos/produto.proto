@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+service ProdutoService {
+    rpc atualizar (AtualizarProdutoModel) returns (Void) {}
+    rpc criar (CriarProdutoModel) returns (ProdutoModel) {}
+    rpc criarLista (CriarProdutosModel) returns (ProdutosModel) {}
+    rpc clonar (IdModel) returns (ProdutoModel) {}
+    rpc deletar (IdModel) returns (Void) {}
+    rpc buscar (IdModel) returns (ProdutoModel) {}
+    rpc listar (Void) returns (ProdutosModel) {}
+}
+
+message Void {
+
+}
+
+message IdModel {
+    int32 id = 1;
+}
+
+message IngredienteModel {
+    int32 id = 1;
+    string nome = 2;
+}
+
+message AtualizarProdutoModel {
+    int32 id = 1;
+    string thumbnail = 2;
+    string nome = 3;
+    double preco = 4;
+    repeated IngredienteModel ingredientes = 5;
+    int32 disponibilidade = 6;
+    int32 volume = 7;
+    string outros = 8;
+}
+
+
+message CriarProdutoModel {
+    string thumbnail = 1;
+    string nome = 2;
+    double preco = 3;
+    repeated IngredienteModel ingredientes = 4;
+    int32 disponibilidade = 5;
+    int32 volume = 6;
+    string outros = 7;
+}
+
+message CriarProdutosModel {
+    repeated CriarProdutoModel produtos = 1;
+}
+
+
+message ProdutoModel {
+    int32 id = 1;
+    string thumbnail = 2;
+    string nome = 3;
+    double preco = 4;
+    repeated IngredienteModel ingredientes = 5;
+    int32 disponibilidade = 6;
+    int32 volume = 7;
+    string outros = 8;
+}
+
+message ProdutosModel {
+    repeated ProdutoModel
+}
