@@ -28,7 +28,7 @@ message AtualizarProdutoModel {
     string thumbnail = 2;
     string nome = 3;
     double preco = 4;
-    repeated IngredienteModel ingredientes = 5;
+    repeated int32 ingredientes = 5;
     int32 disponibilidade = 6;
     int32 volume = 7;
     string outros = 8;
@@ -39,7 +39,7 @@ message CriarProdutoModel {
     string thumbnail = 1;
     string nome = 2;
     double preco = 3;
-    repeated IngredienteModel ingredientes = 4;
+    repeated int32 ingredientes = 4;
     int32 disponibilidade = 5;
     int32 volume = 6;
     string outros = 7;
@@ -62,5 +62,5 @@ message ProdutoModel {
 }
 
 message ProdutosModel {
-    repeated ProdutoModel
+  repeated ProdutoModel produtos = 1;
 }
