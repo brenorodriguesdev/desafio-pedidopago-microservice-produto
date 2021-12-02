@@ -49,7 +49,6 @@ message CriarProdutosModel {
     repeated CriarProdutoModel produtos = 1;
 }
 
-
 message ProdutoModel {
     int32 id = 1;
     string thumbnail = 2;

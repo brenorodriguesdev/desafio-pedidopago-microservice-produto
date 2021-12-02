@@ -1,9 +1,9 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, OneToMany, PrimaryColumn } from 'typeorm'
 import { ProdutoIngrediente } from './produtoIngrediente'
 
 @Entity('produto')
 export class Produto {
-  @PrimaryGeneratedColumn('increment')
+  @PrimaryColumn()
   id?: number
 
   @Column()
@@ -15,9 +15,7 @@ export class Produto {
   @Column()
   preco: number
 
-  @OneToMany(() => ProdutoIngrediente, produtoIngrediente => produtoIngrediente.produto, {
-    cascade: ['insert', 'update']
-  })
+  @OneToMany(() => ProdutoIngrediente, produtoIngrediente => produtoIngrediente.produto)
   @JoinColumn({ name: 'idProduto' })
   ingredientes: ProdutoIngrediente[]
 

@@ -7,7 +7,3 @@ export interface CriarProdutoModel {
     volume: number
     outros?: string
 }
-
-export interface CriarProdutosModel {
-    produtos: CriarProdutoModel[]
-}

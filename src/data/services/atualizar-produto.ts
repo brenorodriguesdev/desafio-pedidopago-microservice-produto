@@ -10,6 +10,11 @@ export class AtualizarProdutoService implements AtualizarProdutoUseCase {
         private readonly produtoIngredienteRepository: ProdutoIngredienteRepository) { }
     async atualizar(data: AtualizarProdutoModel): Promise<void | Error> {
 
+        const produto = await this.produtoRepository.findById(data.id)
+        if (!produto) {
+            return new Error('Esse produto não foi encontrado!')
+        }
+
         let ingredientes = []
 
         for (let idIngrediente of data.ingredientes) {
@@ -20,28 +25,29 @@ export class AtualizarProdutoService implements AtualizarProdutoUseCase {
             ingredientes.push(ingrediente)
         }
 
-        const produto = await this.produtoRepository.findById(data.id)
+        for (let produtoIngrediente of produto.ingredientes) {
+            await this.produtoIngredienteRepository.deleteById(produtoIngrediente.id)
+        }
+
+        for (let ingrediente of ingredientes) {
+            await this.produtoIngredienteRepository.create({
+                ingrediente,
+                produto
+            })
+        }
+
 
         await this.produtoRepository.update({
             id: data.id,
             thumbnail: data.thumbnail,
             nome: data.nome,
             preco: data.preco,
-            ingredientes: [],
+            ingredientes: produto.ingredientes,
             disponibilidade: data.disponibilidade,
             volume: data.volume,
             outros: data.outros
         })
 
-        for (let produtoIngrediente of produto.ingredientes) {
-            await this.produtoIngredienteRepository.deleteById(produtoIngrediente.id)
-        }
 
-        for (let ingrediente of ingredientes) {
-            this.produtoIngredienteRepository.create({
-                ingrediente,
-                produto
-            })
-        }
     }
 }

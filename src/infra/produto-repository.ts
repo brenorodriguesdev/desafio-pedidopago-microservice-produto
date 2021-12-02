@@ -29,6 +29,7 @@ export class ProdutoRepositoryTypeORM implements ProdutoRepository {
     const produtoRepository = getRepository(Produto)
     const { id } = produto
     delete produto.id
+    delete produto.ingredientes
     await produtoRepository.update({ id }, produto)
   }
 }

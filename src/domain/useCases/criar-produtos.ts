@@ -1,8 +1,8 @@
-import { CriarProdutosModel, CriarProdutoModel } from "../models/criar-produtos";
-import { ProdutoModel } from "../models/produto";
+import { CriarProdutoModel } from "../models/criar-produtos";
+import { ProdutoModel, ProdutosModel } from "../models/produto";
 
 export interface CriarProdutosUseCase {
-    criar: (data: CriarProdutosModel) => Promise<ProdutoModel[] | Error>
+    criar: (data: CriarProdutoModel[]) => Promise<ProdutosModel | Error>
 }
 
 export interface CriarProdutoUseCase {

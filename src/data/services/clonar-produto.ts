@@ -14,17 +14,16 @@ export class ClonarProdutoService implements ClonarProdutoUseCase {
             return new Error('Esse produto não foi encontrado!')
         }
 
-        produto.id = 0
         const produtoClone = await this.produtoRepository.create(produto)
 
         let ingredientes = []
-        console.log(produto.ingredientes)
         for (let produtoIngrediente of produto.ingredientes) {
-            await this.produtoIngredienteRepository.create({
+            const produtoIngredienteCriado = await this.produtoIngredienteRepository.create({
                 ingrediente: produtoIngrediente.ingrediente,
                 produto: produtoClone
             })
-            ingredientes.push(produtoIngrediente.ingrediente)
+            console.log(produtoIngredienteCriado)
+            ingredientes.push(produtoIngredienteCriado)
         }
 
         return {
@@ -32,7 +31,10 @@ export class ClonarProdutoService implements ClonarProdutoUseCase {
             thumbnail: produtoClone.thumbnail,
             nome: produtoClone.nome,
             preco: produtoClone.preco,
-            ingredientes,
+            ingredientes: ingredientes.map(produtoIngrediente => ({
+                id: produtoIngrediente.ingrediente.id,
+                nome: produtoIngrediente.ingrediente.nome,
+            })),
             disponibilidade: produtoClone.disponibilidade,
             volume: produtoClone.volume,
             outros: produtoClone.outros

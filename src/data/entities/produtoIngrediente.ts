@@ -1,10 +1,10 @@
-import { Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "typeorm"
 import { Ingrediente } from './ingrediente'
 import { Produto } from './produto'
 
 @Entity('produtoIngrediente')
 export class ProdutoIngrediente {
-  @PrimaryGeneratedColumn('increment')
+  @PrimaryColumn()
   id?: number
 
   @OneToOne(() => Ingrediente)

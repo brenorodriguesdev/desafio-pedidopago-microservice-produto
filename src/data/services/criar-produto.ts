@@ -30,9 +30,9 @@ export class CriarProdutoService implements CriarProdutoUseCase {
             volume: data.volume,
             outros: data.outros
         })
-
+        
         for (let ingrediente of ingredientes) {
-            this.produtoIngredienteRepository.create({
+            await this.produtoIngredienteRepository.create({
                 ingrediente,
                 produto
             })

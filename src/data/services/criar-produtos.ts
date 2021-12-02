@@ -1,15 +1,15 @@
-import { CriarProdutosModel } from "../../domain/models/criar-produtos";
-import { ProdutoModel } from "../../domain/models/produto";
+import { CriarProdutoModel } from "../../domain/models/criar-produtos";
+import { ProdutosModel } from "../../domain/models/produto";
 import { CriarProdutosUseCase, CriarProdutoUseCase } from "../../domain/useCases/criar-produtos";
 import { IngredienteRepository } from "../contracts/ingrediente-repository";
 
 export class CriarProdutosService implements CriarProdutosUseCase {
     constructor(private readonly ingredienteRepository: IngredienteRepository, private readonly criarProdutoUseCase: CriarProdutoUseCase) { }
-    async criar(data: CriarProdutosModel): Promise<ProdutoModel[] | Error> {
+    async criar(data: CriarProdutoModel[]): Promise<ProdutosModel | Error> {
 
         let produtos = []
 
-        for (let produto of data.produtos) {
+        for (let produto of data) {
             for (let idIngrediente of produto.ingredientes) {
                 const ingrediente = await this.ingredienteRepository.findById(idIngrediente)
                 if (!ingrediente) {
@@ -21,6 +21,6 @@ export class CriarProdutosService implements CriarProdutosUseCase {
             produtos.push(productModel)
         }
 
-        return produtos
+        return { produtos }
     }
 }

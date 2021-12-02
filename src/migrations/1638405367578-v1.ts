@@ -103,6 +103,10 @@ export class v11638405367578 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query("delete from produtoIngrediente");
+        await queryRunner.query("delete from produto");
+        await queryRunner.query("delete from ingrediente");
+
         const table = await queryRunner.getTable("produtoIngrediente");
         const foreignKeyProduto = table.foreignKeys.find(fk => fk.columnNames.indexOf("idProduto") !== -1);
         await queryRunner.dropForeignKey("produtoIngrediente", foreignKeyProduto);
