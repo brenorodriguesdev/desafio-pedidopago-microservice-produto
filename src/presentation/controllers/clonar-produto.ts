@@ -21,5 +21,7 @@ export class ClonarProdutoController implements Controller {
         if (result instanceof Error) {
             throw result
         }
+
+        return result
     }
 }

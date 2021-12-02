@@ -1,12 +1,13 @@
 import { ProdutoModel } from "../../domain/models/produto";
 import { ClonarProdutoUseCase } from "../../domain/useCases/clonar-produto";
+import { CriarProdutoUseCase } from "../../domain/useCases/criar-produtos";
 import { ProdutoIngredienteRepository } from "../contracts/produto-ingrediente-repository";
 import { ProdutoRepository } from "../contracts/produto-repository";
 
 export class ClonarProdutoService implements ClonarProdutoUseCase {
     constructor(
         private readonly produtoRepository: ProdutoRepository,
-        private readonly produtoIngredienteRepository: ProdutoIngredienteRepository) { }
+        private readonly criarProdutoUseCase: CriarProdutoUseCase) { }
     async clonar(id: number): Promise<ProdutoModel | Error> {
 
         const produto = await this.produtoRepository.findById(id)
@@ -14,30 +15,19 @@ export class ClonarProdutoService implements ClonarProdutoUseCase {
             return new Error('Esse produto não foi encontrado!')
         }
 
-        const produtoClone = await this.produtoRepository.create(produto)
-
         let ingredientes = []
         for (let produtoIngrediente of produto.ingredientes) {
-            const produtoIngredienteCriado = await this.produtoIngredienteRepository.create({
-                ingrediente: produtoIngrediente.ingrediente,
-                produto: produtoClone
-            })
-            console.log(produtoIngredienteCriado)
-            ingredientes.push(produtoIngredienteCriado)
+            ingredientes.push(produtoIngrediente.ingrediente.id)
         }
 
-        return {
-            id: produtoClone.id,
-            thumbnail: produtoClone.thumbnail,
-            nome: produtoClone.nome,
-            preco: produtoClone.preco,
-            ingredientes: ingredientes.map(produtoIngrediente => ({
-                id: produtoIngrediente.ingrediente.id,
-                nome: produtoIngrediente.ingrediente.nome,
-            })),
-            disponibilidade: produtoClone.disponibilidade,
-            volume: produtoClone.volume,
-            outros: produtoClone.outros
-        }
+        return await this.criarProdutoUseCase.criar({
+            thumbnail: produto.thumbnail,
+            nome: produto.nome,
+            preco: produto.preco,
+            ingredientes: produto.ingredientes.map(produtoIngrediente => produtoIngrediente.ingrediente.id),
+            disponibilidade: produto.disponibilidade,
+            volume: produto.volume,
+            outros: produto.outros,
+        })
     }
 }
