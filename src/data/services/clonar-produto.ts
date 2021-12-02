@@ -14,10 +14,11 @@ export class ClonarProdutoService implements ClonarProdutoUseCase {
             return new Error('Esse produto não foi encontrado!')
         }
 
-        delete produto.id
+        produto.id = 0
         const produtoClone = await this.produtoRepository.create(produto)
 
         let ingredientes = []
+        console.log(produto.ingredientes)
         for (let produtoIngrediente of produto.ingredientes) {
             await this.produtoIngredienteRepository.create({
                 ingrediente: produtoIngrediente.ingrediente,

@@ -6,6 +6,8 @@ export class ProdutoIngredienteRepositoryORM implements ProdutoIngredienteReposi
 
   async create (produtoIngrediente: ProdutoIngrediente): Promise<ProdutoIngrediente> {
     const produtoIngredienteRepository = getRepository(ProdutoIngrediente)
+    produtoIngrediente.id = await produtoIngredienteRepository.count() + 1
+
     return await produtoIngredienteRepository.save(produtoIngrediente)
   }
 

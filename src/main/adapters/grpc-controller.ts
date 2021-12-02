@@ -8,7 +8,6 @@ export const adaptService = (controller: Controller) => {
                 metadata: call.metadata
             }))
         } catch (error) {
-            console.log(error)
             callback(error, null)
         }
     }

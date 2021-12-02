@@ -53,6 +53,7 @@ export class v11638405367578 implements MigrationInterface {
                 {
                     name: "outros",
                     type: "varchar",
+                    isNullable: true
                 }
             ]
         }), true);
