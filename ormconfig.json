@@ -5,12 +5,12 @@
     "password": "1",
     "database": "produtos",
     "entities": [
-        "./dist/data/entities/*.js"
+        "./src/data/entities/*.ts"
     ],
     "migrations": [
-        "./dist/migrations/*.js"
+        "./src/migrations/*.ts"
     ],
     "cli": {
-        "migrationsDir": "./dist/migrations"
+        "migrationsDir": "./src/migrations"
     }
 }

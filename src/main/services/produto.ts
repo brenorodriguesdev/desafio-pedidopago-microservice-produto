@@ -12,7 +12,6 @@ const protoLoader = require('@grpc/proto-loader')
 const path = require('path')
 
 export default (server: any): void => {
-    console.log('asdaasd')
     const protoObject = protoLoader.loadSync(path.resolve(__dirname, '../', 'protos/', 'produto.proto'))
     const produtoProto = grpc.loadPackageDefinition(protoObject)
     server.started = false
