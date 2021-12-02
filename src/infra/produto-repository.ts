@@ -5,12 +5,12 @@ import { Produto } from '../data/entities/produto'
 export class ProdutoRepositoryTypeORM implements ProdutoRepository {
   async findAll (): Promise<Produto[]> {
     const produtoRepository = getRepository(Produto)
-    return await produtoRepository.find({ relations: ['ingredientes']})
+    return await produtoRepository.find({ relations: ['ingredientes', 'ingredientes.ingrediente', 'ingredientes.produto']})
   }
 
   async findById (id: number): Promise<Produto> {
     const produtoRepository = getRepository(Produto)
-    return await produtoRepository.findOne(id, { relations: ['ingredientes']})
+    return await produtoRepository.findOne(id, { relations: ['ingredientes', 'ingredientes.ingrediente', 'ingredientes.produto']})
   }
 
   async create (produto: Produto): Promise<Produto> {

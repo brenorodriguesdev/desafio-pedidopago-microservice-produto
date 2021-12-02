@@ -10,3 +10,7 @@ export interface ProdutoModel {
     volume: number
     outros?: string
 }
+
+export interface ProdutosModel {
+    produtos: ProdutoModel[]
+}

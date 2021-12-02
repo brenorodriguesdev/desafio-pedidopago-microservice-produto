@@ -1,5 +1,5 @@
-import { ProdutoModel } from "../models/produto";
+import { ProdutosModel } from "../models/produto";
 
 export interface ListarProdutosUseCase {
-    listar: () => Promise<ProdutoModel[]>
+    listar: () => Promise<ProdutosModel>
 }
