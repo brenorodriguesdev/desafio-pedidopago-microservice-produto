@@ -1,0 +1,16 @@
+{
+    "type": "mysql",
+    "host": "localhost",
+    "username": "root",
+    "password": "1",
+    "database": "produtos",
+    "entities": [
+        "./dist/data/entities/*.js"
+    ],
+    "migrations": [
+        "./dist/migrations/*.js"
+    ],
+    "cli": {
+        "migrationsDir": "./dist/migrations"
+    }
+}
