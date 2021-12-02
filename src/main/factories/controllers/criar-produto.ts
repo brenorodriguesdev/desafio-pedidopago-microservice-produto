@@ -6,7 +6,7 @@ import { Controller } from "../../../presentation/contracts/controller"
 import { CriarProdutoController } from "../../../presentation/controllers/criar-produto"
 import { makeCriarProdutoValidator } from "../validators/criar-produto"
 
-export const makCriarProdutoController = (): Controller => {
+export const makeCriarProdutoController = (): Controller => {
     const ingredienteRepository = new IngredienteRepositoryTypeORM()
     const produtoRepository = new ProdutoRepositoryTypeORM()
     const produtoIngredienteRepository = new ProdutoIngredienteRepositoryORM()
