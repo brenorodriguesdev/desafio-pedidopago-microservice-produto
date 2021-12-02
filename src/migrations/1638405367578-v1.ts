@@ -94,6 +94,12 @@ export class v11638405367578 implements MigrationInterface {
             onDelete: "CASCADE"
         }));
 
+        await queryRunner.query("insert into ingrediente values (1,'Ingrediente 1')");
+        await queryRunner.query("insert into ingrediente values (2,'Ingrediente 2')");
+        await queryRunner.query("insert into ingrediente values (3,'Ingrediente 3')");
+        await queryRunner.query("insert into ingrediente values (4,'Ingrediente 4')");
+        await queryRunner.query("insert into ingrediente values (5,'Ingrediente 5')");
+
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
