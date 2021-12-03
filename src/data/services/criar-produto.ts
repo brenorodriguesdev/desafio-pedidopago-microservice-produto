@@ -1,4 +1,4 @@
-import { CriarProdutoModel, CriarProdutosModel } from "../../domain/models/criar-produtos";
+import { CriarProdutoModel } from "../../domain/models/criar-produtos";
 import { ProdutoModel } from "../../domain/models/produto";
 import { CriarProdutoUseCase } from "../../domain/useCases/criar-produtos";
 import { IngredienteRepository } from "../contracts/ingrediente-repository";

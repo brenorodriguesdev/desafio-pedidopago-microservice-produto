@@ -1,7 +1,6 @@
 import { ProdutoModel } from "../../domain/models/produto";
 import { ClonarProdutoUseCase } from "../../domain/useCases/clonar-produto";
 import { CriarProdutoUseCase } from "../../domain/useCases/criar-produtos";
-import { ProdutoIngredienteRepository } from "../contracts/produto-ingrediente-repository";
 import { ProdutoRepository } from "../contracts/produto-repository";
 
 export class ClonarProdutoService implements ClonarProdutoUseCase {
