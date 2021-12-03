@@ -1,14 +1,15 @@
+import { CriarProdutoModel } from "../../domain/models/criar-produtos"
 import { ProdutoModel } from "../../domain/models/produto"
-import { ClonarProdutoUseCase } from "../../domain/useCases/clonar-produto"
+import { CriarProdutoUseCase } from "../../domain/useCases/criar-produtos"
 import { makeProduto } from "../../tests/factories/entities/produto"
 import { Validator } from "../../validation/contracts/validator"
 import { GRPCRequest } from "../contracts/grpc"
-import { ClonarProdutoController } from "./clonar-produto"
+import { CriarProdutoController } from "./criar-produto"
 
 interface SutTypes {
     validator: Validator,
-    clonarProdutoUseCase: ClonarProdutoUseCase,
-    sut: ClonarProdutoController
+    criarProdutoUseCase: CriarProdutoUseCase,
+    sut: CriarProdutoController
 }
 
 const makeValidator = (): Validator => {
@@ -36,37 +37,47 @@ const makeProdutoModel = (): ProdutoModel => {
     }
 }
 
-const makeClonarProdutoUseCase = (): ClonarProdutoUseCase => {
-    class ClonarProdutoUseCaseStub implements ClonarProdutoUseCase {
-        async clonar(): Promise<ProdutoModel | Error> {
+const makeCriarProdutoUseCase = (): CriarProdutoUseCase => {
+    class CriarProdutosUseCaseStub implements CriarProdutoUseCase {
+        async criar(): Promise<ProdutoModel | Error> {
             return new Promise(resolve => resolve(makeProdutoModel()))
         }
     }
-    return new ClonarProdutoUseCaseStub()
+    return new CriarProdutosUseCaseStub()
 }
 
 const makeSut = (): SutTypes => {
     const validator = makeValidator()
-    const clonarProdutoUseCase = makeClonarProdutoUseCase()
-    const sut = new ClonarProdutoController(validator, clonarProdutoUseCase)
+    const criarProdutoUseCase = makeCriarProdutoUseCase()
+    const sut = new CriarProdutoController(validator, criarProdutoUseCase)
     return {
         validator,
-        clonarProdutoUseCase,
+        criarProdutoUseCase,
         sut
     }
 }
 
+const makeData = (): CriarProdutoModel => ({
+    thumbnail: 'thumbnail',
+    nome: 'nome',
+    preco: 1,
+    ingredientes: [1],
+    disponibilidade: 1,
+    volume: 1,
+    outros: 'outros'
+})
+
 const makeRequest = (): GRPCRequest => ({
-    request: { id: 1 },
+    request: makeData(),
     metadata: {}
 })
 
-describe('ClonarProduto controller', () => {
+describe('CriarProduto controller', () => {
     test('Garantir que validate seja chamado com os valores corretos', async () => {
         const { sut, validator } = makeSut()
         const validateSpy = jest.spyOn(validator, 'validate')
         await sut.handle(makeRequest())
-        expect(validateSpy).toHaveBeenCalledWith({ id: 1 })
+        expect(validateSpy).toHaveBeenCalledWith(makeData())
     })
 
     test('Garantir que se o validate retornar uma exceção repassará essa exceção', async () => {
@@ -85,22 +96,22 @@ describe('ClonarProduto controller', () => {
 
 
     test('Garantir que clonar seja chamado com os valores corretos', async () => {
-        const { sut, clonarProdutoUseCase } = makeSut()
-        const buscarSpy = jest.spyOn(clonarProdutoUseCase, 'clonar')
+        const { sut, criarProdutoUseCase } = makeSut()
+        const buscarSpy = jest.spyOn(criarProdutoUseCase, 'criar')
         await sut.handle(makeRequest())
-        expect(buscarSpy).toHaveBeenCalledWith(1)
+        expect(buscarSpy).toHaveBeenCalledWith(makeData())
     })
 
     test('Garantir que se o clonar retornar uma exceção repassará essa exceção', async () => {
-        const { sut, clonarProdutoUseCase } = makeSut()
-        jest.spyOn(clonarProdutoUseCase, 'clonar').mockImplementationOnce(() => { throw new Error() })
+        const { sut, criarProdutoUseCase } = makeSut()
+        jest.spyOn(criarProdutoUseCase, 'criar').mockImplementationOnce(() => { throw new Error() })
         const promise = sut.handle(makeRequest())
         await expect(promise).rejects.toThrow()
     })
 
-    test('Garantir que se o clonar uma error retornará uma exceção com esse error', async () => {
-        const { sut, clonarProdutoUseCase } = makeSut()
-        jest.spyOn(clonarProdutoUseCase, 'clonar').mockResolvedValueOnce(new Error())
+    test('Garantir que se o criar uma error retornará uma exceção com esse error', async () => {
+        const { sut, criarProdutoUseCase } = makeSut()
+        jest.spyOn(criarProdutoUseCase, 'criar').mockResolvedValueOnce(new Error())
         const promise = sut.handle(makeRequest())
         await expect(promise).rejects.toEqual(new Error())
     })
