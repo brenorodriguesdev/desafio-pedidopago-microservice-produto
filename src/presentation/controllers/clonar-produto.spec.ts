@@ -86,9 +86,9 @@ describe('ClonarProduto controller', () => {
 
     test('Garantir que clonar seja chamado com os valores corretos', async () => {
         const { sut, clonarProdutoUseCase } = makeSut()
-        const buscarSpy = jest.spyOn(clonarProdutoUseCase, 'clonar')
+        const clonarSpy = jest.spyOn(clonarProdutoUseCase, 'clonar')
         await sut.handle(makeRequest())
-        expect(buscarSpy).toHaveBeenCalledWith(1)
+        expect(clonarSpy).toHaveBeenCalledWith(1)
     })
 
     test('Garantir que se o clonar retornar uma exceção repassará essa exceção', async () => {
