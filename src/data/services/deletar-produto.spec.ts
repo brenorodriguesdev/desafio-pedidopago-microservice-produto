@@ -1,4 +1,3 @@
-import { makeProduto } from "../../tests/factories/entities/produto"
 import { makeProdutoRepository } from "../../tests/factories/repositories/produto-repository"
 import { ProdutoRepository } from "../contracts/produto-repository"
 import { DeletarProdutoService } from "./deletar-produto"
