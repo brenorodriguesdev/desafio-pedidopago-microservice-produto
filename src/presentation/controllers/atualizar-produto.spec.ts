@@ -92,11 +92,11 @@ describe('AtualizarProduto controller', () => {
         await expect(promise).rejects.toThrow()
     })
 
-    test('Garantir que se o validate atualizar uma error retornará uma exceção com esse error', async () => {
+    test('Garantir que se o atualizar uma error retornará uma exceção com esse error', async () => {
         const { sut, atualizarProdutoUseCase } = makeSut()
-        jest.spyOn(atualizarProdutoUseCase, 'atualizar').mockRejectedValueOnce(new Error())
+        jest.spyOn(atualizarProdutoUseCase, 'atualizar').mockResolvedValueOnce(new Error())
         const promise = sut.handle(makeRequest())
-        await expect(promise).rejects.toThrow()
+        await expect(promise).rejects.toEqual(new Error())
     })
 
 

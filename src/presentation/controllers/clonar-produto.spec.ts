@@ -1,14 +1,14 @@
 import { ProdutoModel } from "../../domain/models/produto"
-import { BuscarProdutoUseCase } from "../../domain/useCases/buscar-produto"
+import { ClonarProdutoUseCase } from "../../domain/useCases/clonar-produto"
 import { makeProduto } from "../../tests/factories/entities/produto"
 import { Validator } from "../../validation/contracts/validator"
 import { GRPCRequest } from "../contracts/grpc"
-import { BuscarProdutoController } from "./buscar-produto"
+import { ClonarProdutoController } from "./clonar-produto"
 
 interface SutTypes {
     validator: Validator,
-    buscarProdutoUseCase: BuscarProdutoUseCase,
-    sut: BuscarProdutoController
+    clonarProdutoUseCase: ClonarProdutoUseCase,
+    sut: ClonarProdutoController
 }
 
 const makeValidator = (): Validator => {
@@ -36,22 +36,22 @@ const makeProdutoModel = (): ProdutoModel => {
     }
 }
 
-const makeBuscarProdutoUseCase = (): BuscarProdutoUseCase => {
-    class BuscarProdutoUseCaseStub implements BuscarProdutoUseCase {
-        async buscar(): Promise<ProdutoModel | Error> {
+const makeClonarProdutoUseCase = (): ClonarProdutoUseCase => {
+    class ClonarProdutoUseCaseStub implements ClonarProdutoUseCase {
+        async clonar(): Promise<ProdutoModel | Error> {
             return new Promise(resolve => resolve(makeProdutoModel()))
         }
     }
-    return new BuscarProdutoUseCaseStub()
+    return new ClonarProdutoUseCaseStub()
 }
 
 const makeSut = (): SutTypes => {
     const validator = makeValidator()
-    const buscarProdutoUseCase = makeBuscarProdutoUseCase()
-    const sut = new BuscarProdutoController(validator, buscarProdutoUseCase)
+    const clonarProdutoUseCase = makeClonarProdutoUseCase()
+    const sut = new ClonarProdutoController(validator, clonarProdutoUseCase)
     return {
         validator,
-        buscarProdutoUseCase,
+        clonarProdutoUseCase,
         sut
     }
 }
@@ -61,7 +61,7 @@ const makeRequest = (): GRPCRequest => ({
     metadata: {}
 })
 
-describe('BuscarProduto controller', () => {
+describe('ClonarProduto controller', () => {
     test('Garantir que validate seja chamado com os valores corretos', async () => {
         const { sut, validator } = makeSut()
         const validateSpy = jest.spyOn(validator, 'validate')
@@ -84,23 +84,23 @@ describe('BuscarProduto controller', () => {
     })
 
 
-    test('Garantir que buscar seja chamado com os valores corretos', async () => {
-        const { sut, buscarProdutoUseCase } = makeSut()
-        const buscarSpy = jest.spyOn(buscarProdutoUseCase, 'buscar')
+    test('Garantir que clonar seja chamado com os valores corretos', async () => {
+        const { sut, clonarProdutoUseCase } = makeSut()
+        const buscarSpy = jest.spyOn(clonarProdutoUseCase, 'clonar')
         await sut.handle(makeRequest())
         expect(buscarSpy).toHaveBeenCalledWith(1)
     })
 
-    test('Garantir que se o buscar retornar uma exceção repassará essa exceção', async () => {
-        const { sut, buscarProdutoUseCase } = makeSut()
-        jest.spyOn(buscarProdutoUseCase, 'buscar').mockImplementationOnce(() => { throw new Error() })
+    test('Garantir que se o clonar retornar uma exceção repassará essa exceção', async () => {
+        const { sut, clonarProdutoUseCase } = makeSut()
+        jest.spyOn(clonarProdutoUseCase, 'clonar').mockImplementationOnce(() => { throw new Error() })
         const promise = sut.handle(makeRequest())
         await expect(promise).rejects.toThrow()
     })
 
     test('Garantir que se o buscar uma error retornará uma exceção com esse error', async () => {
-        const { sut, buscarProdutoUseCase } = makeSut()
-        jest.spyOn(buscarProdutoUseCase, 'buscar').mockResolvedValueOnce(new Error())
+        const { sut, clonarProdutoUseCase } = makeSut()
+        jest.spyOn(clonarProdutoUseCase, 'clonar').mockResolvedValueOnce(new Error())
         const promise = sut.handle(makeRequest())
         await expect(promise).rejects.toEqual(new Error())
     })
