@@ -3,7 +3,7 @@
     "host": "localhost",
     "username": "root",
     "password": "1",
-    "database": "produtos",
+    "database": "test",
     "entities": [
         "./src/data/entities/*.ts"
     ],
