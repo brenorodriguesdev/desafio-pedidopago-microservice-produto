@@ -13,6 +13,9 @@ describe('IngredienteRepository', () => {
     })
 
     afterAll(async () => {
+        const ingredienteRepository = getRepository(Ingrediente)
+        const ingredientes = await ingredienteRepository.find()
+        await ingredienteRepository.remove(ingredientes)
         await getConnection().close();
     })
 

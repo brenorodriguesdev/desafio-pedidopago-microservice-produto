@@ -8,7 +8,9 @@
     "start": "node dist/main/server.js",
     "dev": "tsnd --transpile-only --trace-deprecation --respawn --ignore-watch node_modules src/main/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
-    "test": "jest --passWithNoTests --runInBand --detectOpenHandles"
+    "test": "jest --passWithNoTests --runInBand --detectOpenHandles",
+    "coverage": "jest --coverage --passWithNoTests --runInBand --detectOpenHandles"
+
   },
   "repository": {
     "type": "git",
