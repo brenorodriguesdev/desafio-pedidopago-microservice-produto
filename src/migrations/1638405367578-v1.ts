@@ -40,15 +40,15 @@ export class v11638405367578 implements MigrationInterface {
                 },
                 {
                     name: "preco",
-                    type: "varchar",
+                    type: "int",
                 },
                 {
                     name: "disponibilidade",
-                    type: "varchar",
+                    type: "int",
                 },
                 {
                     name: "volume",
-                    type: "varchar",
+                    type: "int",
                 },
                 {
                     name: "outros",
